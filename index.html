@@ -1,1 +1,512 @@
-123
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Liquid Glass · Golden Profile</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at 20% 30%, #1a1a1a, #0b0b0b);
+      font-family: 'Segoe UI', 'Poppins', 'Inter', system-ui, -apple-system, 'BlinkMacSystemFont', 'Roboto', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      position: relative;
+    }
+
+    /* декоративные золотые блики на фоне (игровая атмосфера) */
+    body::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at 70% 40%, rgba(255, 112, 0, 0.12), transparent 70%);
+      pointer-events: none;
+    }
+
+    /* главная карточка профиля — стиль "жидкое стекло" + игровой интерфейс */
+    .profile-card {
+      max-width: 500px;
+      width: 100%;
+      background: rgba(20, 20, 28, 0.55);
+      backdrop-filter: blur(14px) saturate(180%);
+      -webkit-backdrop-filter: blur(14px) saturate(180%);
+      border-radius: 3rem;
+      border: 1px solid rgba(255, 112, 0, 0.4);
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.4), 0 0 0 0.5px rgba(255, 112, 0, 0.2) inset, 0 0 15px rgba(255, 112, 0, 0.2);
+      padding: 2rem 1.8rem 2.2rem 1.8rem;
+      transition: transform 0.25s ease, box-shadow 0.3s ease;
+      text-align: center;
+      backdrop-filter: blur(16px);
+    }
+
+    .profile-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 112, 0, 0.5) inset, 0 0 22px rgba(255, 112, 0, 0.35);
+      border-color: rgba(255, 112, 0, 0.7);
+    }
+
+    /* зона аватара с золотым свечением (рамка как в рпг) */
+    .avatar-frame {
+      position: relative;
+      width: 130px;
+      height: 130px;
+      margin: 0 auto 1.2rem auto;
+      background: linear-gradient(135deg, rgba(255, 112, 0, 0.5), rgba(200, 80, 0, 0.2));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3px;
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.3), 0 0 0 5px rgba(255, 112, 0, 0.25), 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .avatar-inner {
+      width: 100%;
+      height: 100%;
+      background: #1e1e22;
+      border-radius: 50%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid rgba(0, 0, 0, 0.6);
+    }
+
+    /* фото профиля — вставьте реальное изображение, если нужно, но используем стильный эмодзи/иконку с градиентом "игровой аватар" */
+    .avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.2s ease;
+    }
+
+    /* альтернативно: если картинка не загружена, будет символ, но мы добавим простой икон-заглушку с золотым отливом — но вы можете заменить src на реальное фото */
+    .default-avatar {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(145deg, #ff7000, #b35100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.4rem;
+      font-weight: 500;
+      color: #1f1b16;
+      text-shadow: 0 1px 2px rgba(255, 200, 100, 0.6);
+      font-family: monospace;
+    }
+
+    /* никнейм — игровой, золотистый акцент */
+    .nickname {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #FFB347, #FF7000);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      margin-bottom: 0.5rem;
+      display: inline-block;
+      border-bottom: 2px dashed rgba(255, 112, 0, 0.5);
+      padding-bottom: 4px;
+    }
+
+    /* эпическая подпись / статус (игровой ранг/звание) */
+    .game-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      background: rgba(255, 112, 0, 0.2);
+      display: inline-block;
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+      color: #ffb672;
+      font-weight: 500;
+      backdrop-filter: blur(4px);
+      margin-bottom: 1.8rem;
+      border: 0.5px solid rgba(255, 112, 0, 0.5);
+    }
+
+    /* контейнер контактов (стекло + золотые линии) */
+    .contact-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .contact-item {
+      background: rgba(12, 12, 18, 0.55);
+      backdrop-filter: blur(8px);
+      border-radius: 2rem;
+      padding: 0.85rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border: 1px solid rgba(255, 112, 0, 0.3);
+      transition: all 0.2s ease;
+      text-decoration: none;
+      color: #f0ede8;
+      font-weight: 500;
+    }
+
+    .contact-item:hover {
+      background: rgba(255, 112, 0, 0.12);
+      border-color: #ff7000;
+      transform: scale(1.01);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+    }
+
+    /* золотые иконки (как в инвентаре) */
+    .contact-icon {
+      width: 42px;
+      height: 42px;
+      background: rgba(255, 112, 0, 0.15);
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.65rem;
+      border: 1px solid rgba(255, 112, 0, 0.5);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      transition: 0.2s;
+    }
+
+    .contact-info {
+      flex: 1;
+      text-align: left;
+    }
+
+    .contact-label {
+      font-size: 0.7rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #ffb15a;
+      margin-bottom: 0.2rem;
+    }
+
+    .contact-value {
+      font-size: 1rem;
+      font-weight: 500;
+      word-break: break-all;
+      color: #f3ede7;
+      letter-spacing: 0.2px;
+    }
+
+    /* копировальный эффект (для удобства) - но это просто опционально, добавляем подсветку */
+    .copy-hint {
+      font-size: 0.7rem;
+      background: rgba(0,0,0,0.5);
+      padding: 3px 8px;
+      border-radius: 40px;
+      color: #ffb566;
+      transition: 0.1s;
+    }
+
+    /* декоративные элементы "игровой интерфейс": уголки, рамка, кристаллы */
+    .glass-ornament {
+      position: relative;
+    }
+
+    /* полоска опыта/ранга (декоративно) */
+    .xp-bar-container {
+      margin: 1.5rem 0 0.5rem 0;
+      height: 6px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
+    }
+    .xp-fill {
+      width: 78%;
+      height: 100%;
+      background: linear-gradient(90deg, #ff8c2e, #ffb347);
+      border-radius: 10px;
+      box-shadow: 0 0 5px #ff7000;
+    }
+
+    /* декоративный текст уровня (для атмосферы) */
+    .level-stat {
+      display: flex;
+      justify-content: flex-end;
+      font-size: 0.65rem;
+      color: #ffb766;
+      margin-top: 0.3rem;
+      font-family: monospace;
+    }
+
+    /* мобильная адаптация */
+    @media (max-width: 480px) {
+      .profile-card {
+        padding: 1.5rem 1.2rem 1.8rem 1.2rem;
+      }
+      .avatar-frame {
+        width: 105px;
+        height: 105px;
+      }
+      .nickname {
+        font-size: 1.7rem;
+      }
+      .contact-item {
+        padding: 0.7rem 0.9rem;
+      }
+      .contact-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="profile-card glass-ornament">
+  
+  <!-- Рамка аватара (жидкое стекло + золото) -->
+  <div class="avatar-frame">
+    <div class="avatar-inner">
+      <!-- Фото профиля: используем SVG-заглушку с золотистым оттенком и иконкой игрока.
+           ВАЖНО: Вы можете заменить 'src' на ссылку вашего реального фото. 
+           Я разместил data:image/svg+xml с красивым минималистичным аватаром в стиле "золотой воин",
+           но если у вас есть изображение - просто замените src. 
+           Для демонстрации — отображает стилизованный портрет с золотым акцентом -->
+      <img class="avatar-img" 
+           src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='goldGrad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23ff9f3d'/%3E%3Cstop offset='100%25' stop-color='%23b34e00'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='50' fill='url(%23goldGrad)'/%3E%3Ccircle cx='50' cy='38' r='15' fill='%2325221e'/%3E%3Cpath d='M24 72 L76 72 Q70 88 50 88 Q30 88 24 72Z' fill='%23201e1a'/%3E%3Ctext x='50' y='82' text-anchor='middle' fill='%23ffca80' font-size='26' font-weight='bold' font-family='monospace'%3E⚡%3C/text%3E%3C/svg%3E"
+           alt="profile avatar" 
+           onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'default-avatar\'>🔥</div>';">
+    </div>
+  </div>
+
+  <!-- Никнейм (золотой градиент) -->
+  <h1 class="nickname">✦ VELDORAN ✦</h1>
+  
+  <!-- игровой статус / звание (как титул) -->
+  <div class="game-title">✦ LEGENDARY GAMER ✦</div>
+  
+  <!-- "полоска опыта" для атмосферы профиля интерфейса -->
+  <div class="xp-bar-container">
+    <div class="xp-fill"></div>
+  </div>
+  <div class="level-stat">LVL. 89 · REPUTATION GOLD</div>
+
+  <!-- Контакты: почта и телеграм в формате профиля игры -->
+  <div class="contact-list">
+    
+    <!-- Почта -->
+    <div class="contact-item" id="emailItem">
+      <div class="contact-icon">✉️</div>
+      <div class="contact-info">
+        <div class="contact-label">ИГРОВАЯ ПОЧТА</div>
+        <div class="contact-value" id="emailValue">veldoran@lore.zone</div>
+      </div>
+      <div class="copy-hint" data-copy="veldoran@lore.zone">📋 копировать</div>
+    </div>
+    
+    <!-- Telegram -->
+    <div class="contact-item" id="telegramItem">
+      <div class="contact-icon">📡</div>
+      <div class="contact-info">
+        <div class="contact-label">TELEGRAM / @KOMANDA</div>
+        <div class="contact-value" id="telegramValue">@veldoran_gold</div>
+      </div>
+      <div class="copy-hint" data-copy="@veldoran_gold">📋 копировать</div>
+    </div>
+  </div>
+  
+  <!-- мини-футер "интерфейс профиля игры"  -->
+  <div style="margin-top: 1.5rem; font-size: 0.65rem; text-align: center; color: #ffb46870; letter-spacing: 0.6px;">
+    ⚔️ LIQUID GLASS PROFILE | SYNAPSE ⚔️
+  </div>
+</div>
+
+<script>
+  // Реализуем простое копирование контактов при клике на иконку или на "копировать"
+  // для удобства юзера, сохраняя игровой шарм.
+  // Также можно кликнуть по всей строке контакта — скопируется почта или тег.
+  
+  // Функция уведомления (красивое игровое всплывающее сообщение)
+  function showToast(message, isError = false) {
+    // Создаём элемент тоста, похожий на игровое уведомление
+    let toast = document.querySelector('.game-toast');
+    if(toast) toast.remove();
+    
+    const toastDiv = document.createElement('div');
+    toastDiv.className = 'game-toast';
+    toastDiv.innerText = message;
+    toastDiv.style.position = 'fixed';
+    toastDiv.style.bottom = '25px';
+    toastDiv.style.left = '50%';
+    toastDiv.style.transform = 'translateX(-50%)';
+    toastDiv.style.backgroundColor = 'rgba(0,0,0,0.85)';
+    toastDiv.style.backdropFilter = 'blur(12px)';
+    toastDiv.style.border = `1px solid ${isError ? '#ff5555' : '#ff7000'}`;
+    toastDiv.style.color = isError ? '#ffaa88' : '#FFC085';
+    toastDiv.style.padding = '0.7rem 1.8rem';
+    toastDiv.style.borderRadius = '3rem';
+    toastDiv.style.fontFamily = 'monospace';
+    toastDiv.style.fontWeight = '500';
+    toastDiv.style.fontSize = '0.9rem';
+    toastDiv.style.zIndex = '9999';
+    toastDiv.style.boxShadow = '0 8px 20px black';
+    toastDiv.style.letterSpacing = '0.5px';
+    toastDiv.style.textAlign = 'center';
+    toastDiv.style.pointerEvents = 'none';
+    toastDiv.style.whiteSpace = 'nowrap';
+    document.body.appendChild(toastDiv);
+    
+    setTimeout(() => {
+      toastDiv.style.opacity = '0';
+      toastDiv.style.transition = 'opacity 0.3s ease';
+      setTimeout(() => {
+        if(toastDiv && toastDiv.remove) toastDiv.remove();
+      }, 300);
+    }, 1800);
+  }
+  
+  // Копирование текста в буфер
+  async function copyToClipboard(text, elementContext) {
+    try {
+      await navigator.clipboard.writeText(text);
+      showToast(`✅ Скопировано: ${text}`, false);
+      // добавим анимацию "блеск" для элемента, чтобы имитировать обратную связь в UI игры
+      if(elementContext) {
+        const originalBorder = elementContext.style.borderColor;
+        elementContext.style.borderColor = '#ffaa44';
+        elementContext.style.transition = '0.1s';
+        setTimeout(() => {
+          if(elementContext) elementContext.style.borderColor = '';
+        }, 250);
+      }
+    } catch (err) {
+      showToast(`❌ Не удалось скопировать`, true);
+    }
+  }
+  
+  // Обработчики для почты
+  const emailItem = document.getElementById('emailItem');
+  const emailValueSpan = document.getElementById('emailValue');
+  const emailText = emailValueSpan.innerText; // "veldoran@lore.zone"
+  
+  // функция копирования почты
+  const copyEmail = (event) => {
+    event.stopPropagation();
+    copyToClipboard(emailText, emailItem);
+  };
+  
+  // назначаем клик на всю строку контакта (почта)
+  emailItem.addEventListener('click', (e) => {
+    // если клик был именно по элементу .copy-hint - уже обработается отдельно, избегаем двойного срабатывания
+    if(e.target.classList && e.target.classList.contains('copy-hint')) return;
+    copyToClipboard(emailText, emailItem);
+  });
+  
+  // для кнопки копировать внутри почты
+  const emailCopyHint = emailItem.querySelector('.copy-hint');
+  if(emailCopyHint) {
+    emailCopyHint.addEventListener('click', (e) => {
+      e.stopPropagation();
+      copyToClipboard(emailText, emailItem);
+    });
+  }
+  
+  // Telegram
+  const telegramItem = document.getElementById('telegramItem');
+  const telegramValueSpan = document.getElementById('telegramValue');
+  const telegramText = telegramValueSpan.innerText; // "@veldoran_gold"
+  
+  const copyTelegram = (event) => {
+    copyToClipboard(telegramText, telegramItem);
+  };
+  
+  telegramItem.addEventListener('click', (e) => {
+    if(e.target.classList && e.target.classList.contains('copy-hint')) return;
+    copyToClipboard(telegramText, telegramItem);
+  });
+  
+  const tgCopyHint = telegramItem.querySelector('.copy-hint');
+  if(tgCopyHint) {
+    tgCopyHint.addEventListener('click', (e) => {
+      e.stopPropagation();
+      copyToClipboard(telegramText, telegramItem);
+    });
+  }
+  
+  // опционально - добавляем искры при наведении (чисто визуальный эффект)
+  const cards = document.querySelectorAll('.contact-item');
+  cards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      // небольшой глитч/золотой отблеск
+      card.style.transition = 'all 0.15s';
+    });
+  });
+  
+  // если нужно, можно изменить ник или аватар через динамику, но все данные уже на месте 
+  // (мой ник, мое фото, моя почта, телеграм) — всё прописано с возможностью замены.
+  // никнейм: "VELDORAN" вы можете заменить на свой никнейм прямо в теге h1.
+  // фото профиля: вставьте в атрибут src свою картинку. Уже есть стилизованный золотой аватар.
+  // почта: veldoran@lore.zone (меняйте на свою)
+  // телеграм: @veldoran_gold (меняйте на свой)
+  // все стили соответствуют запросу: палитра #ff7000 / rgb(255,112,0), жидкое стекло (backdrop-filter blur), игровой профиль.
+  
+  // Небольшой декоративный скрипт для подчеркивания "жидкого стекла" - добавлю динамический блик на карточку при загрузке (необязательно)
+  console.log('✨ Golden Liquid Glass Profile — ready');
+</script>
+
+<!-- дополнительные стили для улучшения тостов и жидкого эффекта -->
+<style>
+  .game-toast {
+    animation: fadeSlideUp 0.2s ease-out;
+    font-weight: 600;
+    backdrop-filter: blur(12px);
+    background: rgba(0, 0, 0, 0.75);
+    border-radius: 50px;
+    pointer-events: none;
+    letter-spacing: 0.3px;
+  }
+  @keyframes fadeSlideUp {
+    0% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(15px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0px);
+    }
+  }
+  /* Дополнительный акцент на золотом скролле (игровая стилистика) */
+  ::selection {
+    background: #ff7000;
+    color: #0a0a0a;
+  }
+  /* Скругление и шлифовка */
+  .contact-value {
+    font-family: 'SF Mono', monospace, system-ui;
+  }
+  .nickname {
+    font-family: 'Segoe UI', 'Poppins', system-ui;
+    text-shadow: 0 0 8px rgba(255, 112, 0, 0.3);
+  }
+  .avatar-frame {
+    animation: softGlow 3s infinite alternate;
+  }
+  @keyframes softGlow {
+    0% {
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.3), 0 0 0 5px rgba(255, 112, 0, 0.2), 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+    100% {
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.4), 0 0 0 7px rgba(255, 112, 0, 0.45), 0 10px 24px rgba(0, 0, 0, 0.5);
+    }
+  }
+</style>
+</body>
+</html>
