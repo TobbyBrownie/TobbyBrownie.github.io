@@ -1,512 +1,552 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Liquid Glass · Golden Profile</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Golden Dev Profile · Liquid Glass</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      min-height: 100vh;
-      background: radial-gradient(circle at 20% 30%, #1a1a1a, #0b0b0b);
-      font-family: 'Segoe UI', 'Poppins', 'Inter', system-ui, -apple-system, 'BlinkMacSystemFont', 'Roboto', sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1.5rem;
-      position: relative;
-    }
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at 30% 20%, #121212, #050505);
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+            padding: 2rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
 
-    /* декоративные золотые блики на фоне (игровая атмосфера) */
-    body::before {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(ellipse at 70% 40%, rgba(255, 112, 0, 0.12), transparent 70%);
-      pointer-events: none;
-    }
+        /* золотой атмосферный свет */
+        body::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 60% 30%, rgba(255, 112, 0, 0.12), transparent 70%);
+            pointer-events: none;
+        }
 
-    /* главная карточка профиля — стиль "жидкое стекло" + игровой интерфейс */
-    .profile-card {
-      max-width: 500px;
-      width: 100%;
-      background: rgba(20, 20, 28, 0.55);
-      backdrop-filter: blur(14px) saturate(180%);
-      -webkit-backdrop-filter: blur(14px) saturate(180%);
-      border-radius: 3rem;
-      border: 1px solid rgba(255, 112, 0, 0.4);
-      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.4), 0 0 0 0.5px rgba(255, 112, 0, 0.2) inset, 0 0 15px rgba(255, 112, 0, 0.2);
-      padding: 2rem 1.8rem 2.2rem 1.8rem;
-      transition: transform 0.25s ease, box-shadow 0.3s ease;
-      text-align: center;
-      backdrop-filter: blur(16px);
-    }
+        /* главный контейнер — жидкое стекло */
+        .glass-profile {
+            max-width: 680px;
+            width: 100%;
+            background: rgba(18, 18, 24, 0.55);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border-radius: 2.5rem;
+            border: 1px solid rgba(255, 112, 0, 0.35);
+            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.5), 0 0 0 0.5px rgba(255, 112, 0, 0.2) inset, 0 0 20px rgba(255, 112, 0, 0.15);
+            transition: transform 0.25s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+        }
 
-    .profile-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 112, 0, 0.5) inset, 0 0 22px rgba(255, 112, 0, 0.35);
-      border-color: rgba(255, 112, 0, 0.7);
-    }
+        .glass-profile:hover {
+            border-color: rgba(255, 112, 0, 0.6);
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 112, 0, 0.35) inset;
+        }
 
-    /* зона аватара с золотым свечением (рамка как в рпг) */
-    .avatar-frame {
-      position: relative;
-      width: 130px;
-      height: 130px;
-      margin: 0 auto 1.2rem auto;
-      background: linear-gradient(135deg, rgba(255, 112, 0, 0.5), rgba(200, 80, 0, 0.2));
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 3px;
-      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.3), 0 0 0 5px rgba(255, 112, 0, 0.25), 0 8px 20px rgba(0, 0, 0, 0.3);
-    }
+        /* внутренний отступ */
+        .profile-inner {
+            padding: 2rem 1.8rem 1.8rem 1.8rem;
+        }
 
-    .avatar-inner {
-      width: 100%;
-      height: 100%;
-      background: #1e1e22;
-      border-radius: 50%;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid rgba(0, 0, 0, 0.6);
-    }
+        /* шапка: аватар + ник + контакты компактно */
+        .header-area {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 1.8rem;
+        }
 
-    /* фото профиля — вставьте реальное изображение, если нужно, но используем стильный эмодзи/иконку с градиентом "игровой аватар" */
-    .avatar-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.2s ease;
-    }
+        .avatar-block {
+            flex-shrink: 0;
+        }
 
-    /* альтернативно: если картинка не загружена, будет символ, но мы добавим простой икон-заглушку с золотым отливом — но вы можете заменить src на реальное фото */
-    .default-avatar {
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(145deg, #ff7000, #b35100);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 3.4rem;
-      font-weight: 500;
-      color: #1f1b16;
-      text-shadow: 0 1px 2px rgba(255, 200, 100, 0.6);
-      font-family: monospace;
-    }
+        .avatar-frame {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, rgba(255, 112, 0, 0.6), rgba(180, 70, 0, 0.3));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3px;
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.4), 0 0 0 4px rgba(255, 112, 0, 0.3);
+        }
 
-    /* никнейм — игровой, золотистый акцент */
-    .nickname {
-      font-size: 2rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      background: linear-gradient(135deg, #FFB347, #FF7000);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      margin-bottom: 0.5rem;
-      display: inline-block;
-      border-bottom: 2px dashed rgba(255, 112, 0, 0.5);
-      padding-bottom: 4px;
-    }
+        .avatar-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #1c1c22;
+        }
 
-    /* эпическая подпись / статус (игровой ранг/звание) */
-    .game-title {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      background: rgba(255, 112, 0, 0.2);
-      display: inline-block;
-      padding: 0.2rem 1rem;
-      border-radius: 40px;
-      color: #ffb672;
-      font-weight: 500;
-      backdrop-filter: blur(4px);
-      margin-bottom: 1.8rem;
-      border: 0.5px solid rgba(255, 112, 0, 0.5);
-    }
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
 
-    /* контейнер контактов (стекло + золотые линии) */
-    .contact-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      margin-top: 1.5rem;
-    }
+        /* заглушка / реальное фото можно заменить */
+        .dev-info {
+            flex: 1;
+        }
 
-    .contact-item {
-      background: rgba(12, 12, 18, 0.55);
-      backdrop-filter: blur(8px);
-      border-radius: 2rem;
-      padding: 0.85rem 1.2rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      border: 1px solid rgba(255, 112, 0, 0.3);
-      transition: all 0.2s ease;
-      text-decoration: none;
-      color: #f0ede8;
-      font-weight: 500;
-    }
+        .nickname {
+            font-size: 1.9rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FFBC6E, #FF7000);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+            margin-bottom: 0.5rem;
+        }
 
-    .contact-item:hover {
-      background: rgba(255, 112, 0, 0.12);
-      border-color: #ff7000;
-      transform: scale(1.01);
-      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
-    }
+        .contacts-row {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            margin-top: 0.3rem;
+        }
 
-    /* золотые иконки (как в инвентаре) */
-    .contact-icon {
-      width: 42px;
-      height: 42px;
-      background: rgba(255, 112, 0, 0.15);
-      border-radius: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.65rem;
-      border: 1px solid rgba(255, 112, 0, 0.5);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-      transition: 0.2s;
-    }
+        .contact-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(4px);
+            padding: 0.35rem 1rem;
+            border-radius: 40px;
+            border: 0.5px solid rgba(255, 112, 0, 0.5);
+            font-size: 0.85rem;
+            color: #f0e6d8;
+            text-decoration: none;
+            transition: 0.2s;
+        }
 
-    .contact-info {
-      flex: 1;
-      text-align: left;
-    }
+        .contact-chip:hover {
+            background: rgba(255, 112, 0, 0.2);
+            border-color: #ff7000;
+        }
 
-    .contact-label {
-      font-size: 0.7rem;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: #ffb15a;
-      margin-bottom: 0.2rem;
-    }
+        /* полоса-разделитель */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #ff7000, #ffb347, #ff7000, transparent);
+            margin: 1rem 0 1.5rem 0;
+            opacity: 0.5;
+        }
 
-    .contact-value {
-      font-size: 1rem;
-      font-weight: 500;
-      word-break: break-all;
-      color: #f3ede7;
-      letter-spacing: 0.2px;
-    }
+        /* навигация по языкам — золотые кнопки */
+        .lang-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-bottom: 1.8rem;
+            justify-content: center;
+        }
 
-    /* копировальный эффект (для удобства) - но это просто опционально, добавляем подсветку */
-    .copy-hint {
-      font-size: 0.7rem;
-      background: rgba(0,0,0,0.5);
-      padding: 3px 8px;
-      border-radius: 40px;
-      color: #ffb566;
-      transition: 0.1s;
-    }
+        .lang-btn {
+            background: rgba(20, 20, 28, 0.7);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 112, 0, 0.4);
+            border-radius: 60px;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #e6dbce;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: monospace;
+        }
 
-    /* декоративные элементы "игровой интерфейс": уголки, рамка, кристаллы */
-    .glass-ornament {
-      position: relative;
-    }
+        .lang-btn i, .lang-icon {
+            font-style: normal;
+            font-size: 1.1rem;
+        }
 
-    /* полоска опыта/ранга (декоративно) */
-    .xp-bar-container {
-      margin: 1.5rem 0 0.5rem 0;
-      height: 6px;
-      background: rgba(0, 0, 0, 0.5);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
-    }
-    .xp-fill {
-      width: 78%;
-      height: 100%;
-      background: linear-gradient(90deg, #ff8c2e, #ffb347);
-      border-radius: 10px;
-      box-shadow: 0 0 5px #ff7000;
-    }
+        .lang-btn.active {
+            background: rgba(255, 112, 0, 0.25);
+            border-color: #ff7000;
+            color: #ffcf9a;
+            box-shadow: 0 0 8px rgba(255, 112, 0, 0.3);
+        }
 
-    /* декоративный текст уровня (для атмосферы) */
-    .level-stat {
-      display: flex;
-      justify-content: flex-end;
-      font-size: 0.65rem;
-      color: #ffb766;
-      margin-top: 0.3rem;
-      font-family: monospace;
-    }
+        .lang-btn:hover {
+            background: rgba(255, 112, 0, 0.2);
+            transform: translateY(-2px);
+        }
 
-    /* мобильная адаптация */
-    @media (max-width: 480px) {
-      .profile-card {
-        padding: 1.5rem 1.2rem 1.8rem 1.2rem;
-      }
-      .avatar-frame {
-        width: 105px;
-        height: 105px;
-      }
-      .nickname {
-        font-size: 1.7rem;
-      }
-      .contact-item {
-        padding: 0.7rem 0.9rem;
-      }
-      .contact-icon {
-        width: 36px;
-        height: 36px;
-        font-size: 1.4rem;
-      }
-    }
-  </style>
+        /* карточка навыков + описание с прокруткой */
+        .skill-card {
+            background: rgba(10, 10, 14, 0.6);
+            backdrop-filter: blur(8px);
+            border-radius: 1.8rem;
+            padding: 1.3rem 1.2rem;
+            border: 1px solid rgba(255, 112, 0, 0.25);
+            transition: all 0.2s;
+        }
+
+        .skill-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1rem;
+            border-bottom: 1px dashed rgba(255, 112, 0, 0.5);
+            padding-bottom: 0.7rem;
+        }
+
+        .lang-icon-big {
+            font-size: 2.2rem;
+            background: rgba(255, 112, 0, 0.2);
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 112, 0, 0.6);
+        }
+
+        .lang-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #ffb457;
+            letter-spacing: -0.5px;
+        }
+
+        /* область описания с прокруткой и кнопками */
+        .description-area {
+            position: relative;
+            margin: 1rem 0 0.8rem 0;
+        }
+
+        .description-scroll {
+            max-height: 160px;
+            overflow-y: auto;
+            padding-right: 8px;
+            color: #e2d9cf;
+            line-height: 1.5;
+            font-size: 0.9rem;
+            scroll-behavior: smooth;
+        }
+
+        /* красивый скролл в стиле золото */
+        .description-scroll::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .description-scroll::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+        }
+
+        .description-scroll::-webkit-scrollbar-thumb {
+            background: #ff7000;
+            border-radius: 10px;
+        }
+
+        .scroll-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .scroll-btn {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 112, 0, 0.6);
+            color: #ffb15a;
+            width: 34px;
+            height: 34px;
+            border-radius: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: 0.15s;
+            backdrop-filter: blur(4px);
+        }
+
+        .scroll-btn:hover {
+            background: #ff7000;
+            color: #131313;
+            border-color: #ffbc6e;
+        }
+
+        /* дополнительная информация: соцсети / статус (творческое усмотрение) */
+        .extra-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            padding-top: 0.8rem;
+            font-size: 0.7rem;
+            color: #ffb97e;
+            border-top: 1px solid rgba(255, 112, 0, 0.3);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .dev-badge {
+            background: rgba(255, 112, 0, 0.2);
+            border-radius: 40px;
+            padding: 4px 12px;
+            font-family: monospace;
+        }
+
+        @media (max-width: 550px) {
+            .profile-inner {
+                padding: 1.3rem;
+            }
+            .header-area {
+                flex-direction: column;
+                text-align: center;
+            }
+            .contacts-row {
+                justify-content: center;
+            }
+            .lang-title {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<div class="profile-card glass-ornament">
-  
-  <!-- Рамка аватара (жидкое стекло + золото) -->
-  <div class="avatar-frame">
-    <div class="avatar-inner">
-      <!-- Фото профиля: используем SVG-заглушку с золотистым оттенком и иконкой игрока.
-           ВАЖНО: Вы можете заменить 'src' на ссылку вашего реального фото. 
-           Я разместил data:image/svg+xml с красивым минималистичным аватаром в стиле "золотой воин",
-           но если у вас есть изображение - просто замените src. 
-           Для демонстрации — отображает стилизованный портрет с золотым акцентом -->
-      <img class="avatar-img" 
-           src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='goldGrad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23ff9f3d'/%3E%3Cstop offset='100%25' stop-color='%23b34e00'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='50' fill='url(%23goldGrad)'/%3E%3Ccircle cx='50' cy='38' r='15' fill='%2325221e'/%3E%3Cpath d='M24 72 L76 72 Q70 88 50 88 Q30 88 24 72Z' fill='%23201e1a'/%3E%3Ctext x='50' y='82' text-anchor='middle' fill='%23ffca80' font-size='26' font-weight='bold' font-family='monospace'%3E⚡%3C/text%3E%3C/svg%3E"
-           alt="profile avatar" 
-           onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'default-avatar\'>🔥</div>';">
-    </div>
-  </div>
+<div class="glass-profile">
+    <div class="profile-inner">
+        <!-- ШАПКА: фото, ник, контакты -->
+        <div class="header-area">
+            <div class="avatar-block">
+                <div class="avatar-frame">
+                    <div class="avatar-inner">
+                        <!-- Фото профиля (замените src на своё фото) — сейчас стилизованный минимализм -->
+                        <img class="avatar-img" 
+                             src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='ag' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23ffa042'/%3E%3Cstop offset='100%25' stop-color='%23c55a00'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='50' fill='url(%23ag)'/%3E%3Ccircle cx='50' cy='40' r='14' fill='%23231f1a'/%3E%3Cpath d='M25 70 L75 70 Q68 85 50 85 Q32 85 25 70Z' fill='%231e1b17'/%3E%3Ctext x='50' y='82' text-anchor='middle' fill='%23ffcf8a' font-size='28' font-weight='bold'%3E⚡%3C/text%3E%3C/svg%3E"
+                             alt="dev avatar">
+                    </div>
+                </div>
+            </div>
+            <div class="dev-info">
+                <div class="nickname">Alexis Volkov</div>
+                <div class="contacts-row">
+                    <a href="mailto:alexis@devstack.space" class="contact-chip">📧 alexis@devstack.space</a>
+                    <a href="https://t.me/alexis_dev" target="_blank" class="contact-chip">📡 @alexis_dev</a>
+                </div>
+            </div>
+        </div>
 
-  <!-- Никнейм (золотой градиент) -->
-  <h1 class="nickname">✦ VELDORAN ✦</h1>
-  
-  <!-- игровой статус / звание (как титул) -->
-  <div class="game-title">✦ LEGENDARY GAMER ✦</div>
-  
-  <!-- "полоска опыта" для атмосферы профиля интерфейса -->
-  <div class="xp-bar-container">
-    <div class="xp-fill"></div>
-  </div>
-  <div class="level-stat">LVL. 89 · REPUTATION GOLD</div>
+        <div class="divider"></div>
 
-  <!-- Контакты: почта и телеграм в формате профиля игры -->
-  <div class="contact-list">
-    
-    <!-- Почта -->
-    <div class="contact-item" id="emailItem">
-      <div class="contact-icon">✉️</div>
-      <div class="contact-info">
-        <div class="contact-label">ИГРОВАЯ ПОЧТА</div>
-        <div class="contact-value" id="emailValue">veldoran@lore.zone</div>
-      </div>
-      <div class="copy-hint" data-copy="veldoran@lore.zone">📋 копировать</div>
+        <!-- НАВИГАЦИЯ ПО ЯЗЫКАМ (Порядок: python, html, css, java, js, php, mysql, lua) -->
+        <div class="lang-nav" id="langNav">
+            <!-- JS будет генерировать, но для надёжности разместим прямо тут -->
+        </div>
+
+        <!-- КАРТОЧКА НАВЫКОВ: описание + иконка языка -->
+        <div class="skill-card" id="skillCard">
+            <div class="skill-header">
+                <div class="lang-icon-big" id="currentLangIcon">🐍</div>
+                <div class="lang-title" id="currentLangName">Python</div>
+            </div>
+            <div class="description-area">
+                <div class="description-scroll" id="descriptionScroll">
+                    <!-- динамическое описание -->
+                    Здесь будет описание ваших навыков, которое можно листать. Наполнение зависит от выбранного языка.
+                    Профессиональный опыт, фреймворки, инструменты и всё, что важно.
+                </div>
+                <div class="scroll-buttons">
+                    <div class="scroll-btn" id="scrollUpBtn" title="Прокрутить вверх">▲</div>
+                    <div class="scroll-btn" id="scrollDownBtn" title="Прокрутить вниз">▼</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Дополнительный блок на ваше усмотрение: например, статистика или ссылки на GitHub / время работы -->
+        <div class="extra-meta">
+            <span class="dev-badge">✦ 7+ лет в разработке ✦</span>
+            <span class="dev-badge">🛠️ full-stack & системный дизайн</span>
+            <span class="dev-badge">🌍 open-source contributor</span>
+        </div>
     </div>
-    
-    <!-- Telegram -->
-    <div class="contact-item" id="telegramItem">
-      <div class="contact-icon">📡</div>
-      <div class="contact-info">
-        <div class="contact-label">TELEGRAM / @KOMANDA</div>
-        <div class="contact-value" id="telegramValue">@veldoran_gold</div>
-      </div>
-      <div class="copy-hint" data-copy="@veldoran_gold">📋 копировать</div>
-    </div>
-  </div>
-  
-  <!-- мини-футер "интерфейс профиля игры"  -->
-  <div style="margin-top: 1.5rem; font-size: 0.65rem; text-align: center; color: #ffb46870; letter-spacing: 0.6px;">
-    ⚔️ LIQUID GLASS PROFILE | SYNAPSE ⚔️
-  </div>
 </div>
 
 <script>
-  // Реализуем простое копирование контактов при клике на иконку или на "копировать"
-  // для удобства юзера, сохраняя игровой шарм.
-  // Также можно кликнуть по всей строке контакта — скопируется почта или тег.
-  
-  // Функция уведомления (красивое игровое всплывающее сообщение)
-  function showToast(message, isError = false) {
-    // Создаём элемент тоста, похожий на игровое уведомление
-    let toast = document.querySelector('.game-toast');
-    if(toast) toast.remove();
-    
-    const toastDiv = document.createElement('div');
-    toastDiv.className = 'game-toast';
-    toastDiv.innerText = message;
-    toastDiv.style.position = 'fixed';
-    toastDiv.style.bottom = '25px';
-    toastDiv.style.left = '50%';
-    toastDiv.style.transform = 'translateX(-50%)';
-    toastDiv.style.backgroundColor = 'rgba(0,0,0,0.85)';
-    toastDiv.style.backdropFilter = 'blur(12px)';
-    toastDiv.style.border = `1px solid ${isError ? '#ff5555' : '#ff7000'}`;
-    toastDiv.style.color = isError ? '#ffaa88' : '#FFC085';
-    toastDiv.style.padding = '0.7rem 1.8rem';
-    toastDiv.style.borderRadius = '3rem';
-    toastDiv.style.fontFamily = 'monospace';
-    toastDiv.style.fontWeight = '500';
-    toastDiv.style.fontSize = '0.9rem';
-    toastDiv.style.zIndex = '9999';
-    toastDiv.style.boxShadow = '0 8px 20px black';
-    toastDiv.style.letterSpacing = '0.5px';
-    toastDiv.style.textAlign = 'center';
-    toastDiv.style.pointerEvents = 'none';
-    toastDiv.style.whiteSpace = 'nowrap';
-    document.body.appendChild(toastDiv);
-    
-    setTimeout(() => {
-      toastDiv.style.opacity = '0';
-      toastDiv.style.transition = 'opacity 0.3s ease';
-      setTimeout(() => {
-        if(toastDiv && toastDiv.remove) toastDiv.remove();
-      }, 300);
-    }, 1800);
-  }
-  
-  // Копирование текста в буфер
-  async function copyToClipboard(text, elementContext) {
-    try {
-      await navigator.clipboard.writeText(text);
-      showToast(`✅ Скопировано: ${text}`, false);
-      // добавим анимацию "блеск" для элемента, чтобы имитировать обратную связь в UI игры
-      if(elementContext) {
-        const originalBorder = elementContext.style.borderColor;
-        elementContext.style.borderColor = '#ffaa44';
-        elementContext.style.transition = '0.1s';
-        setTimeout(() => {
-          if(elementContext) elementContext.style.borderColor = '';
-        }, 250);
-      }
-    } catch (err) {
-      showToast(`❌ Не удалось скопировать`, true);
+    // ======================= ДАННЫЕ ЯЗЫКОВ =======================
+    // каждый язык: имя, иконка (эмодзи/символ), текст описания (вы потом заполните)
+    // Иконки стилизованы под язык (можно заменить на любые символы или картинки)
+    const languages = [
+        { 
+            id: "python", name: "Python", icon: "🐍", 
+            desc: "Опыт разработки на Python: 5+ лет. Специализация: бэкенд (FastAPI, Django), автоматизация, парсинг, асинхронное программирование. Участвовал в создании high-load сервисов, ETL pipelines. Люблю чистый код и типизацию."
+        },
+        { 
+            id: "html", name: "HTML5", icon: "🏷️", 
+            desc: "Семантическая вёрстка, доступность (WCAG), валидный код, микроформаты. Опыт создания адаптивных, кроссбраузерных макетов. Интеграция с CSS/JS. Знание шаблонизаторов (Pug, Handlebars)."
+        },
+        { 
+            id: "css", name: "CSS3", icon: "🎨", 
+            desc: "Глубокое знание Flexbox, Grid, анимаций, адаптивности (mobile-first). Препроцессоры: SCSS, LESS. Современные подходы: Tailwind, CSS-in-JS. Создание сложных интерфейсов с эффектами 'liquid glass'."
+        },
+        { 
+            id: "java", name: "Java", icon: "☕", 
+            desc: "Корпоративная разработка на Java (Spring Boot, Hibernate). Проектирование микросервисов, многопоточность, JPA. Опыт интеграции с Kafka, RabbitMQ. Люблю производительность и паттерны."
+        },
+        { 
+            id: "js", name: "JavaScript", icon: "⚡", 
+            desc: "ES6+, асинхронный JS, промисы, замыкания. Работа с DOM, fetch API, WebSockets. Сборщики: Webpack, Vite. Написал несколько утилит и SPA без фреймворков. Понимание event loop."
+        },
+        { 
+            id: "php", name: "PHP", icon: "🐘", 
+            desc: "Бэкенд на Laravel, Symfony. Опыт создания REST API, работа с MySQL, Redis. Знание legacy-кода и миграция на современные версии. Администрирование CMS (WordPress) на кастомных решениях."
+        },
+        { 
+            id: "mysql", name: "MySQL", icon: "🗄️", 
+            desc: "Проектирование нормализованных БД, сложные JOIN, оконные функции, оптимизация запросов (EXPLAIN). Репликация, триггеры, транзакции. Опыт миграции на облачные решения (AWS RDS)."
+        },
+        { 
+            id: "lua", name: "Lua", icon: "🌙", 
+            desc: "Скрипты для игровых движков (Love2D, Redis-скрипты), автоматизация в Neovim, написание плагинов. Знание метатаблиц, корутин. Интеграция Lua с C/C++ для высокопроизводительных модулей."
+        }
+    ];
+
+    // ссылки на DOM
+    const langNavContainer = document.getElementById("langNav");
+    const currentLangIconSpan = document.getElementById("currentLangIcon");
+    const currentLangNameSpan = document.getElementById("currentLangName");
+    const descriptionScrollDiv = document.getElementById("descriptionScroll");
+
+    let activeLangId = "python";   // по умолчанию Python
+
+    // функция генерации кнопок в строго заданном порядке
+    function renderLangButtons() {
+        langNavContainer.innerHTML = "";
+        languages.forEach(lang => {
+            const btn = document.createElement("button");
+            btn.className = `lang-btn ${activeLangId === lang.id ? 'active' : ''}`;
+            btn.setAttribute("data-lang", lang.id);
+            // иконка + название
+            btn.innerHTML = `<span class="lang-icon">${lang.icon}</span> <span>${lang.name}</span>`;
+            btn.addEventListener("click", () => {
+                setActiveLanguage(lang.id);
+            });
+            langNavContainer.appendChild(btn);
+        });
     }
-  }
-  
-  // Обработчики для почты
-  const emailItem = document.getElementById('emailItem');
-  const emailValueSpan = document.getElementById('emailValue');
-  const emailText = emailValueSpan.innerText; // "veldoran@lore.zone"
-  
-  // функция копирования почты
-  const copyEmail = (event) => {
-    event.stopPropagation();
-    copyToClipboard(emailText, emailItem);
-  };
-  
-  // назначаем клик на всю строку контакта (почта)
-  emailItem.addEventListener('click', (e) => {
-    // если клик был именно по элементу .copy-hint - уже обработается отдельно, избегаем двойного срабатывания
-    if(e.target.classList && e.target.classList.contains('copy-hint')) return;
-    copyToClipboard(emailText, emailItem);
-  });
-  
-  // для кнопки копировать внутри почты
-  const emailCopyHint = emailItem.querySelector('.copy-hint');
-  if(emailCopyHint) {
-    emailCopyHint.addEventListener('click', (e) => {
-      e.stopPropagation();
-      copyToClipboard(emailText, emailItem);
+
+    // функция обновления активного языка и контента
+    function setActiveLanguage(langId) {
+        const found = languages.find(l => l.id === langId);
+        if (!found) return;
+        
+        activeLangId = langId;
+        // обновляем активные классы кнопок
+        document.querySelectorAll(".lang-btn").forEach(btn => {
+            const btnLang = btn.getAttribute("data-lang");
+            if (btnLang === langId) {
+                btn.classList.add("active");
+            } else {
+                btn.classList.remove("active");
+            }
+        });
+        
+        // меняем иконку и заголовок
+        currentLangIconSpan.textContent = found.icon;
+        currentLangNameSpan.textContent = found.name;
+        // обновляем описание
+        descriptionScrollDiv.innerHTML = found.desc;
+        // сброс прокрутки в начало
+        descriptionScrollDiv.scrollTop = 0;
+    }
+
+    // =============== ЛОГИКА ПРОКРУТКИ ОПИСАНИЯ ===============
+    const scrollUpBtn = document.getElementById("scrollUpBtn");
+    const scrollDownBtn = document.getElementById("scrollDownBtn");
+
+    function scrollDescription(delta) {
+        if (!descriptionScrollDiv) return;
+        const step = 70; // px за клик
+        descriptionScrollDiv.scrollTop += delta;
+    }
+
+    scrollUpBtn.addEventListener("click", () => {
+        scrollDescription(-80);
     });
-  }
-  
-  // Telegram
-  const telegramItem = document.getElementById('telegramItem');
-  const telegramValueSpan = document.getElementById('telegramValue');
-  const telegramText = telegramValueSpan.innerText; // "@veldoran_gold"
-  
-  const copyTelegram = (event) => {
-    copyToClipboard(telegramText, telegramItem);
-  };
-  
-  telegramItem.addEventListener('click', (e) => {
-    if(e.target.classList && e.target.classList.contains('copy-hint')) return;
-    copyToClipboard(telegramText, telegramItem);
-  });
-  
-  const tgCopyHint = telegramItem.querySelector('.copy-hint');
-  if(tgCopyHint) {
-    tgCopyHint.addEventListener('click', (e) => {
-      e.stopPropagation();
-      copyToClipboard(telegramText, telegramItem);
+    scrollDownBtn.addEventListener("click", () => {
+        scrollDescription(80);
     });
-  }
-  
-  // опционально - добавляем искры при наведении (чисто визуальный эффект)
-  const cards = document.querySelectorAll('.contact-item');
-  cards.forEach(card => {
-    card.addEventListener('mouseenter', () => {
-      // небольшой глитч/золотой отблеск
-      card.style.transition = 'all 0.15s';
-    });
-  });
-  
-  // если нужно, можно изменить ник или аватар через динамику, но все данные уже на месте 
-  // (мой ник, мое фото, моя почта, телеграм) — всё прописано с возможностью замены.
-  // никнейм: "VELDORAN" вы можете заменить на свой никнейм прямо в теге h1.
-  // фото профиля: вставьте в атрибут src свою картинку. Уже есть стилизованный золотой аватар.
-  // почта: veldoran@lore.zone (меняйте на свою)
-  // телеграм: @veldoran_gold (меняйте на свой)
-  // все стили соответствуют запросу: палитра #ff7000 / rgb(255,112,0), жидкое стекло (backdrop-filter blur), игровой профиль.
-  
-  // Небольшой декоративный скрипт для подчеркивания "жидкого стекла" - добавлю динамический блик на карточку при загрузке (необязательно)
-  console.log('✨ Golden Liquid Glass Profile — ready');
+
+    // небольшая плюшка: если пользователь хочет редактировать описание (позже вы сами добавите языки и наполните)
+    // Также обеспечено, что разделы соответствуют порядку: python, html, css, java, js, php, mysql, lua
+    
+    // можно добавить функционал для плавной адаптации, но уже готово.
+    // доп. фича: добавим возможность динамически редактировать описание через консоль или дополнительный режим, но по заданию — просто красивый интерфейс.
+    
+    // для удобства, даем возможность позже заполнить тексты — они уже хранятся в массиве languages.
+    // если нужно изменить или дополнить, просто меняйте поле desc в объекте. Также можно добавить новые языки
+    // но порядок соблюден.
+    
+    // Также я добавил красивый блок extra-meta, который вы сможете легко заменить на что угодно (ссылки на гитхаб, вк, или график работы)
+    
+    // === инициализация ===
+    renderLangButtons();
+    setActiveLanguage("python");   // стартовый
+    
+    // дополнительно: если пользователь решит когда-нибудь добавить новые языки, он сможет добавить объект в массив languages
+    // и порядок будет соблюден при условии вставки в нужное место.
+    // пример: чтобы добавить "C++" после lua или до — достаточно push/splice.
+    
+    // можно добавить также "настраиваемый" никнейм, почту и тег телеграма. Их можно легко заменить прямо в HTML.
+    // Весь интерфейс выполнен в стиле жидкое стекло, золотистая палитра #ff7000, 
+    // при этом нет прямой игровой терминологии (убрал уровни, полоски опыта, оставил элегантный dev-профиль)
+    
+    // ---------------------- НЕБОЛЬШОЙ ЭФФЕКТ ПРИ НАВЕДЕНИИ -------------------
+    const skillCard = document.querySelector(".skill-card");
+    if(skillCard) {
+        skillCard.addEventListener("mouseenter", () => {
+            skillCard.style.transform = "translateY(-2px)";
+            skillCard.style.transition = "0.2s";
+        });
+        skillCard.addEventListener("mouseleave", () => {
+            skillCard.style.transform = "translateY(0)";
+        });
+    }
+    
+    // также добавим корректную прокрутку колесиком мыши в области описания — по умолчанию оно скроллится, кнопки дублируют.
+    // и пользователь может использовать стандартный скролл.
+    console.log("Профиль разработчика | Liquid Glass готов. Измените описание и язык в массиве languages.");
 </script>
 
-<!-- дополнительные стили для улучшения тостов и жидкого эффекта -->
+<!-- Дополнительные микро-стили для улучшения читаемости прокрутки -->
 <style>
-  .game-toast {
-    animation: fadeSlideUp 0.2s ease-out;
-    font-weight: 600;
-    backdrop-filter: blur(12px);
-    background: rgba(0, 0, 0, 0.75);
-    border-radius: 50px;
-    pointer-events: none;
-    letter-spacing: 0.3px;
-  }
-  @keyframes fadeSlideUp {
-    0% {
-      opacity: 0;
-      transform: translateX(-50%) translateY(15px);
+    .description-scroll p {
+        margin-bottom: 0.7rem;
     }
-    100% {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0px);
+    .lang-btn:focus-visible, .scroll-btn:focus-visible {
+        outline: 2px solid #ffbb77;
+        outline-offset: 2px;
     }
-  }
-  /* Дополнительный акцент на золотом скролле (игровая стилистика) */
-  ::selection {
-    background: #ff7000;
-    color: #0a0a0a;
-  }
-  /* Скругление и шлифовка */
-  .contact-value {
-    font-family: 'SF Mono', monospace, system-ui;
-  }
-  .nickname {
-    font-family: 'Segoe UI', 'Poppins', system-ui;
-    text-shadow: 0 0 8px rgba(255, 112, 0, 0.3);
-  }
-  .avatar-frame {
-    animation: softGlow 3s infinite alternate;
-  }
-  @keyframes softGlow {
-    0% {
-      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.3), 0 0 0 5px rgba(255, 112, 0, 0.2), 0 8px 20px rgba(0, 0, 0, 0.3);
+    .contact-chip {
+        transition: all 0.2s;
     }
-    100% {
-      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.4), 0 0 0 7px rgba(255, 112, 0, 0.45), 0 10px 24px rgba(0, 0, 0, 0.5);
+    /* тень для карточки при интерактиве */
+    .skill-card {
+        transition: transform 0.2s, border-color 0.2s;
     }
-  }
 </style>
 </body>
 </html>
